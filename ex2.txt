@@ -1,0 +1,97 @@
+select first_name,department_id from employees where last_name='De Haan';
+select * from departments where department_name='sales';
+select first_name,last_name,department_id,salary from employees where salary > 9700;
+select * from employees where hire_date <'1-jan-1992';
+-------HR version 2---------
+select * from employees;
+select employee_id,first_name,job_id,department_id
+from employees
+where department_id in(20,60,80);
+select employee_id,first_name,job_id,department_id
+from employees
+where department_id not in(20,60,80);
+select last_name,phone_number,salary ,manager_id from employees where manager_id in( 100, 102,103 );
+select first_name,salary from employees where first_name like '%e';
+select last_name,department_id from employees where last_name like '_i%';
+select * from employees where last_name like '%l%' or last_name like '%j%' or last_name like '%h%' order by salary desc;
+select first_name,hire_date,salary,department_id from employees where first_name not like '%a' order by department_id asc;
+select * from employees where department_id is null;
+select first_name ||','|| last_name as full_name,salary 
+from employees 
+where salary not between 7000 and 15000;
+select first_name||','|| last_name as full_name,phone_number||'-'||email as contacts,salary 
+from employees
+where salary between 5000 and 10000;
+select * from employees where salary between 6000 and 8000 and commission_pct is not null or
+department_id !=80 and department_id != 90 and  department_id != 100 and hire_date < '1-jan-90';
+select last_name,job_id,hire_date from employees where hire_date between '12-dec-97' and '17-apr-1998';
+select first_name||' '|| last_name,hire_date,commission_pct,phone_number,salary from employees where salary > 10000 or phone_number like'--5%' order by first_name desc;
+select last_name,salary from employees where salary > 12000;
+select last_name,department_id from employees where department_id in(50,80);
+select last_name,department_id from employees where department_id=50 or department_id=80;
+select first_name,salary from employees where commission_pct is null;
+select first_name,salary,manager_id from employees where manager_id is not null;
+---------------------------------------------------------------------------------------------------------------------------------------
+
+-----------------------------------------------------------joins v2-----------------------------------------------------------------------------
+select e.first_name,e.last_name,d.department_id,d.department_name 
+from employees e inner join departments d 
+on e.department_id=d.department_id;
+select  e.first_name,e.last_name,d.department_id,d.department_name 
+from employees e inner join departments d 
+on e.department_id=d.department_id 
+where d.department_id in (50, 90);
+select d.department_name,l.city,l.state_province 
+from departments d inner join locations l 
+on d.location_id=l.location_id;
+select e.first_name,d.department_name,l.city,l.state_province 
+from employees e 
+inner join departments d 
+on e.department_id=d.department_id inner join locations l 
+on d.location_id=l.location_id;
+select e.first_name,d.department_name,l.city,l.state_province 
+from employees e 
+inner join departments d 
+on e.department_id=d.department_id inner join locations l 
+on d.location_id=l.location_id where e.last_name like '%a%';
+select e.first_name,e.last_name,d.department_id,d.department_name 
+from employees e 
+left outer join departments d 
+on e.department_id = d.department _id;                                                                 
+select e.first_name,e.last_name,d.department_id,d.department_name 
+from employees e 
+right outer join departments d 
+on e.department_id=d.department_id;
+select e.first_name,e.last_name,d.department_id,d.department_name from employees e full outer join departments d on e.department_id=d.department_id;
+select e.last_name from employees e,employees em where e.manager_id=em.employee_id;
+select e.last_name,em.last_name from employees e 
+left outer join employees em 
+on e.manager_id=em.employee_id;
+select last_name,salary from employees where salary <( select salary from employees where employee_id= 103);
+------------------------------------------------------------nested queries v2 ----------------------------------------------------
+select first_name,salary from employees where salary >( select salary from employees where employee_id= 103);
+select department_id,department_name from departments where location_id=(select location_id from departments where department_id=90);
+Display the last name and hire date for all employees who was hired after employee number 101 (Employees table).
+select last_name,hire_date from employees where hire_date >(select hire_date from employees where employee_id=101);
+Display the first name, last name, and department number for all employees who work in Sales department (Employees and Departments table).
+select first_name,last_name,department_id from employees where department_id=(select department_id from departments where department_name='Sales');
+Display the department number and department name for all departments located in Toronto (Departments table).
+select department_id,department_name from departments where location_id=(select location_id from locations where city='Toronto');
+Display the first name, salary and department number for all employees who work in the department as employee number 124 (Employees table).
+select first_name,salary,department_id from employees where department_id=(select department_id from employees where employee_id=124);
+Display the first name, salary, and department number for all employees who earn more than the average salary (Employees table).
+select first_name,salary,department_id from employees where salary >(select avg(salary) from employees);
+Display the first name, salary, and department number for all employees whose salary equals one of the salaries in department number 20 (Employees table).
+select first_name,salary,department_id from employees where salary in(select salary from employees where department_id=20);
+Display the first name, salary, and department number for all employees who earn more than maximum salary in department number 50 (Employees table).
+select first_name,salary,department_id from employees where salary >(select max(salary) from employees where department_id=50);
+Display the first name, salary, and department number for all employees who earn more than the minimum salary in department number 60 (Employees table).
+select first_name,salary,department_id from employees where salary >(select min(salary) from employees where department_id=60);
+Display the first name, salary, and department number for all employees who earn less than the minimum salary of department number 90 (Employees table).
+select first_name,salary,department_id from employees where salary <(select min(salary) from employees where department_id=90);
+Display the first name, salary and department number for all employees whose department is located Seattle (Employees, Departments and Locations table).
+select first_name,salary,department_id from employees where department_id in(select department_id from departments where location_id=(select location_id from locations where city='Seattle'));
+Display the first name, salary, and department number for all employees who earn less than the average salary, and also work at the same department as employee whose first name is Kevin
+select first_name,salary,department_id from employees where salary <(select avg( salary) from employees where department_id in(select department_id from employees where first_name='Kevin')); 
+
+
