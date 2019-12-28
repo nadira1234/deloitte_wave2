@@ -1,0 +1,274 @@
+-------------------------------------------procedure1----------------------------------------------------------------------------------------------------------
+SET SERVEROUTPUT ON;
+DECLARE 
+  E_incentive number(10);
+BEGIN 
+select salary*0.2 into E_incentive from employees where employee_id=110;
+  DBMS_OUTPUT.PUT_LINE('Incentive'||E_incentive);
+END;
+-------------------------------------------procedure2-----------------------------------------------------------------------------------------------------------
+SET SERVEROUTPUT ON;
+DECLARE 
+V_LAB varchar2(15):='hello world';
+BEGIN
+ DBMS_OUTPUT.PUT_LINE('MY STRING'||"v_lab");
+END;
+-------------------------------------------procedure3-----------------------------------------------------------------------------------------------------------
+SET SERVEROUTPUT ON;
+DECLARE 
+"ALTER" varchar2(15):='hello world';
+BEGIN
+ DBMS_OUTPUT.PUT_LINE('MY STRING'||"ALTER");
+END;
+----------------------------------------------procedure4-----------------------------------------------------------------------------------
+SET SERVEROUTPUT ON;
+DECLARE 
+ALTER varchar2(15):='hello world';
+BEGIN
+ DBMS_OUTPUT.PUT_LINE('MY STRING'||ALTER);
+END;
+--------------------------------------------------procedure5-----------------------------------------------------------------------
+SET SERVEROUTPUT ON;
+DECLARE 
+"ALTER" varchar2(15):='hello world';
+BEGIN
+DBMS_OUTPUT.PUT_LINE('MY STRING'||"alter");
+END;
+-----------------------------------------------procedure6---------------------------------------------------------------------------
+SET SERVEROUTPUT ON;
+DECLARE 
+"ALTER" varchar2(15):='hello world';--declaring variable
+BEGIN
+ DBMS_OUTPUT.PUT_LINE('MY STRING'||"ALTER");
+ /* displaying
+ output*/
+END;  
+-------------------------------------------procedure7-------------------------------------------------------------------------------
+SET SERVEROUTPUT ON;
+DECLARE 
+  E_employeeid number(10):='101';
+  E_empname varchar2(15):='nadira begum';
+BEGIN 
+  DBMS_OUTPUT.PUT_LINE('EMPLOYEE ID'||E_employeeid);
+   DBMS_OUTPUT.PUT_LINE('EMPLOYEE NAME'||E_empname);
+  END;
+------------------------------------------procedure8-------------------------------------------
+SET SERVEROUTPUT ON;
+DECLARE
+V_OUTER  varchar2(20):='GLOBAL VARIABLE';
+BEGIN
+DECLARE                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+V_INNER varchar2(20):='LOCAL VARIABLE';
+BEGIN 
+DBMS_OUTPUT.PUT_LINE('LOCAL='||V_INNER);
+DBMS_OUTPUT.PUT_LINE('GLOBAL='||V_OUTER);
+END;
+DBMS_OUTPUT.PUT_LINE(V_OUTER);
+END;
+-------------------------------------procedure9-------------------------------------------------------
+SET SERVEROUTPUT ON;
+DECLARE 
+V_LAB varchar2(15):='hello world';
+BEGIN
+ DBMS_OUTPUT.PUT_LINE('MY STRING'||"V_LAB");
+END;
+--------------------------------------procedure10--------------------------------------------------------
+SET SERVEROUTPUT ON;
+DECLARE
+V_SALARY number(10);
+BEGIN
+select salary+10000 into V_SALARY from  employees where employee_id=122;
+DBMS_OUTPUT.PUT_LINE('salary'||V_salary);
+END;
+------------------------------------------procedure11-----------------------------------------------
+SET SERVEROUTPUT ON;
+BEGIN
+ DBMS_OUTPUT.PUT_LINE('8 + 20 / 4 = ' || (8 + 20 / 4));
+  DBMS_OUTPUT.PUT_LINE('20 / 4 + 8 = ' || (20 / 4 + 8));
+END;  
+------------------------------------------procedure12---------------------------------------------------------------------
+SET SERVEROUTPUT ON;
+CREATE PROCEDURE SAMPLE1
+--------------------------------------------practice 2----------------------------------------------------------------------------
+DECLARE
+  v_fname VARCHAR2(20);
+  v_lname VARCHAR2(15) DEFAULT 'fernandez';
+BEGIN
+  DBMS_OUTPUT.PUT_LINE(v_fname ||' ' ||v_lname);
+END;
+--------------------------------------------practice1-----------------------------------------------------------------------------
+DECLARE
+amount INTEGER(10):=10000;
+BEGIN
+DBMS_OUTPUT.PUT_LINE(amount);
+END;
+-----------------------------------------------------------------------------------------------------------------------------------
+SET SERVEROUTPUT ON;
+DECLARE 
+V_SAMPLE varchar2(15):='HELLO WORLD';
+BEGIN
+ DBMS_OUTPUT.PUT_LINE('MY STRING'||"V_SAMPLE");
+END;
+-------------------------------------------------------practice 2---------------------------------------------------------
+SET SERVEROUTPUT ON;
+DECLARE 
+V_SAMPLE varchar2(15):='HELLO WORLD';
+BEGIN
+ DBMS_OUTPUT.PUT_LINE('MY STRING'||"V_SAMPLE");
+END;
+--------------------------------------------------------------------------------------------------------------------------------------
+a.	Add a declarative section to this PL/SQL block. In the declarative section, declare the following variables:
+1.	Variable v_today of type DATE. Initialize today with SYSDATE.
+2.	Variable v_tomorrow of type today. Use %TYPE attribute to declare this 	variable.
+SET SERVEROUTPUT ON;
+DECLARE
+V_TODAY DATE :=SYSDATE;
+V_TOMORROW V_TODAY%TYPE;
+BEGIN
+V_TOMORROW:=V_TODAY+1;
+DBMS_OUTPUT.PUT_LINE('HELLO WORLD');
+DBMS_OUTPUT.PUT_LINE('TODAY'||V_TODAY);
+DBMS_OUTPUT.PUT_LINE('TOMORROW'||V_TOMORROW);
+END;
+------------------------------------------------practice2 bind variable-------------------------------------------------------------------------------------
+Add code to create two bind variables. 
+Create bind variables b_basic_percent and b_pf_percent of type NUMBER.
+b.	In the executable section of the PL/SQL block, assign the values 45 and 12 to b_basic_percent and b_pf_percent, respectively.
+c.	Terminate the PL/SQL block with “/” and display the value of the bind variables by using the PRINT command.
+
+SET SERVEROUTPUT ON;
+SET AUTOPRINT ON;
+VARIABLE b_basic_percent number
+VARIABLE b_pf_percent number
+BEGIN
+:b_basic_percent:=45;
+:b_pf_percent:=12;
+END;
+/
+print b_basic_percent;
+print b_pf_percent;
+----------------------------------------------------practice 3------------------------------------------------------------------------------------------------------
+SET SERVEROUTPUT ON
+DECLARE
+ v_weight    NUMBER(3) := 600;
+ v_message   VARCHAR2(255) := 'Product 10012';
+  v_new_locn  VARCHAR2(50);
+BEGIN
+ DECLARE
+   v_weight	 NUMBER(3) := 1;
+   v_message   VARCHAR2(255) := 'Product 11001';
+   v_new_locn  VARCHAR2(50) := 'Europe';
+ BEGIN
+   v_weight := v_weight + 1;
+   v_new_locn := 'Western ' || v_new_locn;
+   DBMS_OUTPUT.PUT_LINE(' value at pos 1 of weight :'|| v_weight);
+   DBMS_OUTPUT.PUT_LINE(' value at pos 1 of message :'|| v_message);
+   DBMS_OUTPUT.PUT_LINE(' value at pos 1 of weight:'|| v_new_locn);
+END;
+ v_weight := v_weight + 1;
+ v_message := v_message || ' is in stock';
+ v_new_locn := 'Western ' || v_new_locn;
+ DBMS_OUTPUT.PUT_LINE(' value at pos 2 of weight :'|| v_weight);
+   DBMS_OUTPUT.PUT_LINE(' value at pos 2 of message :'|| v_message);
+   DBMS_OUTPUT.PUT_LINE(' value at pos 2 of weight:'|| v_new_locn);
+END;
+--------------------------------------------------------------------------------------------------------------------------
+SET SERVEROUTPUT ON
+DECLARE
+   v_customer	    VARCHAR2(50) := 'Womansport';
+   v_credit_rating   VARCHAR2(50) := 'EXCELLENT';
+   v_name	VARCHAR2(25) := 'sports';
+BEGIN
+    DECLARE
+       v_customer	NUMBER(7) := 201;
+       v_name	VARCHAR2(25) := 'Unisports';       
+    BEGIN
+       v_credit_rating :='GOOD'; 
+       DBMS_OUTPUT.PUT_LINE('V_CUSTOMER IN NESTED BLOCK='||v_customer);
+       DBMS_OUTPUT.PUT_LINE('V_NAME IN NESTED BLOCK='||v_name);
+       DBMS_OUTPUT.PUT_LINE('V_CREDIT_RATING IN NESTED BLOCK='||v_credit_rating);
+    END;
+    DBMS_OUTPUT.PUT_LINE('V_CUSTOMER IN MAIN BLOCK='||v_customer);
+       DBMS_OUTPUT.PUT_LINE('V_NAME IN MAIN BLOCK='||v_name);
+       DBMS_OUTPUT.PUT_LINE('V_CREDIT_RATING IN MAIN BLOCK='||v_credit_rating);
+END;
+---------------------------------------------------------------------------------------------------------------------------------------------
+a.	Use single-line comment syntax to comment the lines that create the bind variables.
+b.	Use multiple-line comments in the executable section to comment the lines that assign values to the bind variables.
+SET SERVEROUTPUT ON;
+SET AUTOPRINT ON;
+VARIABLE b_basic_percent number  --BINDING VARIABLE DECLARED
+VARIABLE b_pf_percent number
+BEGIN
+:b_basic_percent:=45;/* BINDING VARIABLE 
+ASSIGNED */
+
+:b_pf_percent:=12;
+END;
+/
+print b_basic_percent; 
+print b_pf_percent;
+-------------------------------------------------------------------------------------------------------------------------------------------------------------
+Declare the v_basic_percent and  v_pf_percent variables and initialize them to 45 and 12, respectively. Also, declare two variables: v_fname of type VARCHAR2 and size 15, and v_emp_sal of type NUMBER and size 10.
+d.	Include the following SQL statement in the executable section:
+SET SERVEROUTPUT ON;
+SET AUTOPRINT ON;
+VARIABLE b_basic_percent number
+VARIABLE b_pf_percent number
+DECLARE 
+v_fname varchar2(15);
+v_emp_sal number(10);
+BEGIN
+:b_basic_percent:=45;
+:b_pf_percent:=12;
+SELECT first_name, salary 
+INTO v_fname, v_emp_sal FROM employees 
+WHERE employee_id=110;
+DBMS_OUTPUT.PUT_LINE('FIRST NAME=' ||v_fname);
+DBMS_OUTPUT.PUT_LINE('SALARY=' ||v_emp_sal);
+END;
+/
+print b_basic_percent; 
+print b_pf_percent;
+---------------------------------------------------------------------------------------------------------------------
+Change the line that prints “Hello World” to print “Hello” and the first name. You can comment the lines that display the dates and print the bind variables, if you want to.
+SET SERVEROUTPUT ON
+VARIABLE b_basic_percent number
+VARIABLE b_pf_percent number
+DECLARE
+v_fname varchar2(15);
+BEGIN
+:b_basic_percent:=45;
+:b_pf_percent:=12;
+select FIRST_NAME into v_fname from employees where employee_id=110;
+DBMS_OUTPUT.PUT_LINE('HELLO' ||v_fname);
+END;
+/
+print b_basic_percent; 
+print b_pf_percent;
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+f.	Calculate the contribution of the employee toward provident fund (PF).
+PF is 12% of the basic salary and basic salary is 45% of the salary. Use the bind variables for the calculation. Try and use only one expression to calculate the PF. Print the employee’s salary and his contribution toward PF.
+SET SERVEROUTPUT ON
+VARIABLE V_PFUND number
+VARIABLE V_BASIC number
+BEGIN
+SELECT salary*0.45*0.12,salary*0.45 into :V_PFUND,:V_BASIC from employees where employee_id=110;
+END;
+/
+print V_PFUND;
+print V_BASIC;
+------------------------------------------------practice 4------------------------------------------------------------------------------------------------------------
+Create a PL/SQL block that selects the maximum department ID in the departments table and stores it in the v_max_deptno variable. Display the maximum department ID.
+a.	Declare a variable, v_max_deptno, of type NUMBER in the declarative section.
+b.	Start the executable section with the BEGIN keyword and include a SELECT statement to retrieve the maximum department_id from the departments table.
+c.	Display v_max_deptno and end the executable block.
+
+Create a PL/SQL block that selects the maximum department ID in the departments table and stores it in the v_max_deptno variable. Display the maximum department ID.
+SET SERVEROUTPUT ON
+VARIABLE v_max_deptno number
+BEGIN
+SELECT MAX(department_id) into :v_max_deptno from departments;
+END;
+/
+print v_max_deptno
