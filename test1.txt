@@ -1,0 +1,99 @@
+Write An SQL Query To Fetch “FIRST_NAME” From Worker Table Using The Alias Name As <WORKER_NAME>.
+select first_name as worker_name 
+from Worker; 
+Write An SQL Query To Fetch “FIRST_NAME” From Worker Table In Upper Case.
+select upper(first_name) 
+from worker;
+Write An SQL Query To Fetch Unique Values Of DEPARTMENT From Worker Table.
+select distinct department 
+from worker;
+Write An SQL Query To Find The Position Of The Alphabet (‘A’) In The First Name Column ‘Amitabh’ From Worker Table.
+select instr(first_name,'A')
+from worker;
+Write An SQL Query To Print The First Three Characters Of  FIRST_NAME From Worker Table.
+select substr(first_name,1,3) 
+from worker;
+Write An SQL Query To Print The FIRST_NAME From Worker Table After Removing White Spaces From The Right Side.
+select rtrim(first_name) 
+from worker;
+Write An SQL Query To Print The DEPARTMENT From Worker Table After Removing White Spaces From The Left Side.
+select ltrim(first_name) 
+from worker;
+Write An SQL Query That Fetches The Unique Values Of DEPARTMENT From Worker Table And Prints Its Length.
+select distinct department ,length(rtrim(department))
+from worker;
+Write An SQL Query To Print The FIRST_NAME From Worker Table After Replacing ‘A’ With ‘a’.
+select first_name,replace(first_name,'A','a') 
+from  worker;
+Write An SQL Query To Print The FIRST_NAME And LAST_NAME From Worker Table Into A Single Column COMPLETE_NAME. A Space Char Should Separate Them.
+select first_name||' '||last_name as complete_name 
+from worker;
+Write An SQL Query To Print All Worker Details From The Worker Table Order By FIRST_NAME Ascending.
+select * 
+from worker 
+order by first_name;
+Write An SQL Query To Print All Worker Details From The Worker Table Order By FIRST_NAME Ascending And DEPARTMENT Descending.
+select * from worker 
+order by first_name,department desc;
+Write An SQL Query To Print Details For Workers With The First Name As “Vipul” And “Satish” From Worker Table.
+select * from 
+worker 
+where first_name='Vipul' or first_name='Satish'; /* no output*/
+select * from worker 
+where first_name='Vipul' and first_name='Satish';
+Write An SQL Query To Print Details Of Workers Excluding First Names, “Vipul” And “Satish” From Worker Table.
+select * from worker 
+where first_name not in('Vipul','Satish');
+Write An SQL Query To Print Details Of Workers With DEPARTMENT Name As “Admin”.
+select * from worker 
+where department='Admin';
+Write An SQL Query To Print Details Of The Workers Whose FIRST_NAME Contains ‘A’.
+select * from worker 
+where first_name like '%A%';
+Write An SQL Query To Print Details Of The Workers Whose FIRST_NAME Ends With ‘A’.
+select * from worker 
+where first_name like '%A';
+Write An SQL Query To Print Details Of The Workers Whose FIRST_NAME Ends With ‘H’ And Contains Six Alphabets.
+select * from worker 
+where first_name like '%H' and length(first_name)=6;
+---------------------------------------------------------------------------------------------------------------------
+Start the executable section with the BEGIN keyword and include a SELECT statement to retrieve the maximum department_id from the departments table.
+SET SERVEROUTPUT  ON
+ variable V_MAXDID number;
+BEGIN
+select max(department_id)into :V_MAXDID  from departments;
+end;
+/
+print V_MAXDID
+----------------------------------------------------------------------------------------------------------------------
+Write a PL/SQL block to show a reserved word can be used as a user-define identifier.
+SET SERVEROUTPUT ON;
+DECLARE 
+"SELECT" varchar2(15):='good morning';
+BEGIN
+ DBMS_OUTPUT.PUT_LINE('MY STRING'||"SELECT");
+END;
+-------------------------------------------------------------------------------------------------
+Write PL/SQL blocks to show the scope and visibility of local and global identifiers.
+SET SERVEROUTPUT ON;
+DECLARE
+V_OUTER  varchar2(20):='GLOBAL VARIABLE';
+BEGIN
+DECLARE                                                                                                                                                                                                                                                                                                                                                                                                                                                                         
+V_INNER varchar2(20):='LOCAL VARIABLE';
+BEGIN 
+DBMS_OUTPUT.PUT_LINE('LOCAL='||V_INNER);
+DBMS_OUTPUT.PUT_LINE('GLOBAL='||V_OUTER);
+END;
+DBMS_OUTPUT.PUT_LINE(V_OUTER);
+END;
+--------------------------------------------------------------------------------
+Write a PL/SQL block to adjust the salary of the employee whose ID 122.
+SET SERVEROUTPUT ON;
+DECLARE
+V_SALARY number(10);
+BEGIN
+select salary+10000 into V_SALARY from  employees where employee_id=122;
+DBMS_OUTPUT.PUT_LINE('salary'||V_salary);
+END;
+---------------------------------------------------------------------------------------
