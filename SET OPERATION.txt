@@ -1,0 +1,161 @@
+-------------------------------------------------------------set operation------------------------------------------------------
+select department_id from departments
+minus
+select department_id from employees where job_id like 'ST_CLERK';
+) The HR department needs a list of countries that have no departments located in
+them. Display the country ID and the name of the countries. Use the set operators to
+select c.country_name,c.country_id from countries c 
+minus
+select c.country_name,c.country_id 
+from countries c 
+join locations l 
+on c.country_id=l.country_id
+join departments d 
+on l.location_id=d.location_id;
+ Produce a list of jobs for departments 10, 50, and 20, in that order. Display the job ID
+and department ID by using the set operators.
+select distinct job_id,department_id from employees where department_id=10
+union all
+select distinct job_id,department_id from employees where department_id=50
+union all
+select distinct job_id,department_id from employees where department_id=20
+
+Create a report that lists the employee IDs and job IDs of those employees who
+currently have a job title that is the same as their job title when they were initially
+hired by the company
+select employee_id,job_id from employees
+intersect
+select employee_id,job_id from job_history;
+
+ The HR department needs a report with the following specifications:
+? Last name and department ID of all employees from the EMPLOYEES table,
+regardless of whether or not they belong to a department
+? Department ID and department name of all departments from the DEPARTMENTS
+table, regardless of whether or not they have employees working in them
+
+select 
+last_name,department_id, TO_CHAR(NULL)
+from employees 
+union 
+select 
+TO_CHAR(NULL), department_id,department_name 
+from departments; 
+---------------------------------------------------------------DDL STATEMENT--------------------------------------------------------------------------
+create table dept(dept_id number, dept_name varchar2(25),constraint dept_d_pk primary key(dept_id));
+drop table dept;
+create table dept(dept_id number primary key, dept_name varchar2(25));
+drop table dept
+create table dept(dept_id number constraint dept_I_pk primary key,name1 varchar2(25));
+insert into dept(select department_id,department_name from departments);
+select * from dept;
+create table emp1(id number(7),last_name varchar2(25),first_name varchar2(25),dept_id number(7),foreign key(dept_id) references dept(dept_id));
+drop table emp;
+ Create the EMPLOYEES2 table based on the structure of the EMPLOYEES table.
+ Include only the EMPLOYEE_ID, FIRST_NAME, LAST_NAME, SALARY, and DEPARTMENT_ID columns. 
+ Name the columns in your new table ID, FIRST_NAME, LAST_NAME, SALARY, and DEPT_ID, respectively. 
+ 
+ create table employee2(id,first_name,last_name,salary,dept_id)
+ as (select employee_id ,
+ first_name,last_name,
+ salary,department_id
+ from employees)
+ drop table employee2;
+ insert into employee2(select employee_id as id,
+ first_name,last_name,
+ salary,department_id as dept_id 
+ from employees);
+ select * from employee2;
+ alter table employee2 read only;
+ insert into employee2(select employee_id as id,
+ first_name,last_name,
+ salary,department_id as dept_id 
+ from employees);
+alter table employee2 read write;
+drop table employee2;
+-------------------------------------------------view-----------------------------------------------------
+  create view EMPLOYEES_VU 
+  as select employee_id,last_name,department_id 
+  from employees 
+  where department_id=(select department_id from departments where department_name='HR')
+  select * from employees;
+   select * from departments;
+   describe EMPLOYEES_VU;
+   select * from EMPLOYEES_VU;
+   select employee_id,department_id from EMPLOYEES_VU;
+   drop view department50;
+   create view department50 
+  as select employee_id,last_name,department_id 
+  from employees 
+  where department_id=50 with check option constraint chk_dept_no;
+  select * from department50;
+  desc department50;
+------------------------------------------sequence---------------------------------------------------------------------- 
+You need a sequence that can be used with the PRIMARY KEY column of the DEPT
+table. The sequence should start at 200 and have a maximum value of 1,000. Have
+your sequence increment by 10. Name the sequence DEPT_ID_SEQ.
+
+create sequence dept_id_seq
+ increment by 10
+ start with 200
+ maxvalue 1000
+nocycle
+nocache;
+select * from dept;
+desc dept;
+
+8) To test your sequence, write a script to insert two rows in the DEPT table. Name your
+script lab_11_08.sql. Be sure to use the sequence that you created for the ID
+column. Add two departments: Education and Administration. Confirm your
+additions. Run the commands in your script.
+
+insert into dept(dept_id,name1) values
+(dept_id_seq.nextval,'education');
+insert into dept(dept_id,name1) values
+(dept_id_seq.nextval,'administration');
+
+9) Create a nonunique index on the NAME column in the DEPT table.
+
+create index name_idx on dept(name1);
+select * from dept;
+
+10) Create a synonym for your EMPLOYEES table. Call it EMP.
+
+create synonym emp for employees;
+select * from emp;
+  -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------]
+---------------------------------------------------DML STATEMENTS--------------------------------------------------------------------------------------------------
+create table my_employee( id number(4) not null,first_name varchar2(25),last_name varchar2(25),user_id varchar2(8),salary number(9,2));
+insert into my_employee values(1,'ralph','patel','rpatel',895);
+insert into my_employee values(2,'bety','dancs','bdancs',860);
+insert into my_employee values(3,'ben','biri','bbiri',1100);
+insert into my_employee values(4,'chad','newman','cnewman',750);
+select * from my_employee;
+insert into my_employee(id,first_name,last_name,user_id,salary)values(5,'audrey','ropeburn','aropebor',1500);
+insert into my_employee(id,first_name,last_name,user_id,salary)values(&id,&first_name,&last_name,&user_id,&salary);
+ Change the last name of employee 3 to Drexler. 11)
+ 
+update my_employee set last_name='drexler' where id=3;
+
+Change the salary to $1,000 for all employees who have a salary less than $900. 
+update my_employee set salary=1000 where salary < 900;
+
+select * from my_employee;
+
+delete from my_employee where first_name='bety';
+
+
+---------------------------------------------DCL operations--------------------------------------------------------------------------------------------------------
+savepoint save_MYEMP;
+delete from my_employee;
+select * from my_employee;
+rollback to save_MYEMP;
+select * from my_employee;
+--------------------------------------------------------------------------------------------------------------------------
+ script such that the USERID is generated automatically by concatenating the 
+ first letter of the first name and the first seven characters of the last name
+ . The generated USERID must be in lowercase. 
+ insert into my_employee values(7,'mark','anthony','manthon',1895);
+ insert into my_employee values(&id,'&&first_name','&&last_name',substr('&first_name',1,1)||substr('&last_name',1,7),&salary);
+ select id,first_name,last_name,concat(substr(first_name,1,1),(substr(last_name,1,7))) as user_id,salary from my_employee;
+ ---------------------------------------------------
+ 
