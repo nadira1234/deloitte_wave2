@@ -1,0 +1,108 @@
+-----------------------------------------------------------cursor queries(practice -7)----------------------------------------------------------
+?	In the declarative section, declare a variable v_num of type NUMBER that holds a number n representing the number of top n earners
+from the employees table. 
+For example, to view the top five salaries, enter 5. 
+Declare another variable sal of type employees.salary.
+Declare a cursor, c_emp_cursor, that retrieves the salaries of employees in descending order. 
+create table top_salary(emp_salary number(10));
+truncate table top_salary;
+set serveroutput on
+declare
+v_num number;
+v_salary employees.salary%type;
+cursor c_emp_cursor is
+select distinct salary from (select distinct salary from employees order by salary desc) where rownum <=&v_num ;
+begin 
+open c_emp_cursor;
+loop
+fetch c_emp_cursor into v_salary;
+exit when c_emp_cursor%notfound;
+insert into top_salary values(v_salary);
+end loop;
+close c_emp_cursor;
+end;
+----------------------------------------------------------------------------------
+select * from top_salary;
+--------------------------------------------------------------------------------------------------------------
+	In the declarative section, declare a variable v_deptno of type NUMBER and assign a value that holds department ID.
+	Declare a cursor, c_emp_cursor, that retrieves the last_name, salary, and manager_id of the employees working in the department specified in v_deptno.
+	In the executable section, use the cursor FOR loop to operate on the data retrieved. If the salary of the employee is less than 5,000 and if the manager ID is either 101 or 124, display the message <<last_name>> Due for a raise. Otherwise, display the message <<last_name>> Not due for a raise.
+set serveroutput on
+declare
+v_deptno number:=&v_deptno;
+cursor c_emp_cursor is
+select last_name,salary,manager_id from employees where department_id=v_deptno;
+emp_record c_emp_cursor%rowtype;
+begin
+for emp_record in c_emp_cursor
+loop
+if emp_record.salary<5000 and emp_record.manager_id in(10,124)
+then dbms_output.put_line(emp_record.last_name||'due for a raise');
+else dbms_output.put_line(emp_record.last_name||' not due for a raise');
+end if;
+end loop;
+end;
+----------------------------------------------------------------------------------------------------------------------------------------------------------
+?	Write a PL/SQL block that declares and uses cursors with parameters.
+In a loop, use a cursor to retrieve the department number and the department name from the departments table for a department whose department_id is less than 100.
+Pass the department number to another cursor as a parameter to retrieve from the employees table 
+the details of employee last name, job, hire date, and salary of those employees whose employee_id is less than 120 and who work in that department.
+?	In the declarative section, declare a cursor dept_cursor to retrieve department_id and department_name for those departments with department_id less than 100.
+     Order by department_id.
+?	Declare another cursor emp_cursor that takes the department number as parameter and retrieves last_name, job_id, hire_date, and salary of those employees whose employee_id is less than 120 and who work in that department.
+?	Declare variables to hold the values retrieved from each cursor. Use the %TYPE attribute while declaring variables.
+?	Open the dept_cursor, use a simple loop, and fetch values into the variables declared. Display the department number and department name.
+?	For each department, open emp_cursor by passing the current department number as a parameter. Start another loop and fetch the values of emp_cursor into variables and print all the details retrieved from the employees table.
+Note: You may want to print a line after you have displayed the details of each department. Use appropriate attributes for the exit condition. Also, determine whether a cursor is already open before opening the cursor.
+
+
+
+SET SERVEROUTPUT ON
+declare 
+cursor dept_cursor is 
+select department_id,department_name 
+from departments 
+where department_id <100 
+order by department_id;
+cursor emp_cursor(dept_no number) is
+select last_name,job_id,hire_date,salary 
+from employees 
+where department_id <120 and department_id=dept_no;
+v_dept_id departments.department_id%type;
+v_dept_name departments.department_name%type;
+v_last_name employees.last_name%type;
+v_job_id employees.job_id%type;
+v_hire_date employees.hire_date%type;
+v_salary employees.salary%type;
+begin 
+open dept_cursor;
+loop
+fetch dept_cursor into v_dept_id,v_dept_name;
+exit when dept_cursor%notfound;
+dbms_output.put_line('Department id: '||v_dept_id);
+dbms_output.put_line('Department name: '||v_dept_name);
+open emp_cursor(v_dept_id);
+loop
+fetch emp_cursor into v_last_name,v_job_id,v_hire_date,v_salary;
+exit when emp_cursor%notfound;
+dbms_output.put_line('Last name:'||v_last_name||'JOB ID:'||v_job_id||'HIRE DATE:'||v_hire_date||'salary:'||v_salary);
+end loop;
+dbms_output.put_line('------------------------------------------------------------------------------------------');
+close emp_cursor;
+end loop;
+close dept_cursor;
+end;
+-------------------------------------------------------------------practice 6-----------------------------------------------------------------------------
+?	Declare a PL/SQL record based on the structure of the countries table.
+?	Declare a variable v_countryid. Assign CA to v_countryid. 
+?	In the declarative section, use the %ROWTYPE attribute and declare the v_country_record variable of type countries.
+?	In the executable section, get all the information from the countries table by using countryid. Display selected information about the country
+set serveroutput on
+declare 
+v_country_id countries.country_id%type:='CA';
+v_country_record countries%rowtype;
+begin
+select * into v_country_record from countries where country_id=v_country_id;
+dbms_output.put_line('country id :'||v_country_record.country_id||' '||'country_name:'||v_country_record.country_name||' '||'region id:'||v_country_record.region_id);
+end;
+---------------------------------------------------------------------------------------------------------------------
